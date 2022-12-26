@@ -16,7 +16,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            Board List Page
+                            <button id='regBtn' type="button" class="btn btn-xs pull-right">Register New Board</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -33,15 +34,35 @@
 								<c:forEach items="${ list }" var="board">
 									<tr>
 										<td><c:out value="${ board.bno }" /></td>
-										<td><c:out value="${ board.title }" /></td>
+										<td>
+										  <a href='/board/get?bno=<c:out value="${ board.bno }" />'>
+										    <c:out value="${ board.title }" />
+										  </a>
+										</td>
 										<td><c:out value="${ board.writer }" /></td>
 										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${ board.regdate }" /></td>
 										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${ board.updatedate }" /></td>
 									</tr>	
 								</c:forEach>
-								
                             </table>
                             <!-- /.table-responsive -->
+                            
+                            <div class='pull-right'>
+                              <ul class="pagination">
+                                <c:if test="${ pageMaker.prev }">
+                                  <li class="paginate_button previous"><a href="#">Previous</a></li>
+                                </c:if>
+                                
+                                <c:forEach var="num" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }">
+                                  <li class="paginate_button"><a href="#">${ num }</a></li>
+                                </c:forEach>
+                                
+                                <c:if test="${ pageMaker.next }">
+                                  <li class="paginate_button next"><a href="#">Next</a></li>
+                                </c:if>
+                              </ul>
+                            </div>
+                            <!-- end Pagination -->
                             
                             <!-- Modal 추가 -->
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" arila-labelledby="myModalLabel" aria-hidden="true">
@@ -62,11 +83,6 @@
                               <!-- /.modal-dialog  -->
                             </div>
                             <!-- /.modal -->
-                            <div class="well">
-                                <h4>DataTables Usage Information</h4>
-                                <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
-                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
-                            </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -373,9 +389,11 @@
 		
 		checkModal(result);
 		
+		history.replaceState({}, null, null);
+		
 		function checkModal(result) {
 			
-			if (result === '') {
+			if (result === '' || history.state) {
 				return;
 			}
 			
@@ -385,6 +403,11 @@
 			
 			$("#myModal").modal("show");
 		}
+		
+		$("#regBtn").on("click", function(){
+			self.location = "/board/register"
+			// url을 통해서 원하는 곳으로 얼마든지 페이지 이동할 수 있다.
+		});
 	});
 </script>
             
