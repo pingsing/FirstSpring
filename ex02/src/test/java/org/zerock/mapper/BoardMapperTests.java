@@ -76,15 +76,27 @@ public class BoardMapperTests {
 //		log.info("UPDATE COUNT: " + count);
 //	}
 	
+//	@Test
+//	public void testPaging() {
+//		Criteria cri = new Criteria();
+//		// 10개씩 3페이지
+//		cri.setPageNum(3);
+//		cri.setAmount(10);
+//		
+//		List<BoardVO> list = mapper.getListWithPaging(cri);
+//		
+//		list.forEach(board -> log.info(board));
+//	}
+	
 	@Test
-	public void testPaging() {
+	public void testSearch() {
+		
 		Criteria cri = new Criteria();
-		// 10개씩 3페이지
-		cri.setPageNum(3);
-		cri.setAmount(10);
+		cri.setKeyword("검색");
+		cri.setType("TWC");
 		
 		List<BoardVO> list = mapper.getListWithPaging(cri);
-		
 		list.forEach(board -> log.info(board));
+		
 	}
 }
